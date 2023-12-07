@@ -1,0 +1,30 @@
+services:
+ root-api:
+  build: ./root-nestjs-api
+  ports:
+   -"3000:3000"
+  volumes:
+   - ./root-nestjs-api/src:/usr/src/app/src
+  command: npm run start:dev
+  environment:
+   - PORT=3000
+ users-microservices:
+  build: ./users-microservices
+  volumes:
+   - ./users-microservices/src:/usr/src/app/src
+  command: npm run start:dev
+ payment-microservices:
+  build: ./payment-microservices
+  volumes:
+   - ./payment-microservices/src:/usr/src/app/src
+  command: npm run start:dev
+ nats:
+  image: nats
+  ports:
+   - 4222:4222
+ mysql_db:
+  image: mysql
+  ports:
+   - "3307:3307"
+
+
