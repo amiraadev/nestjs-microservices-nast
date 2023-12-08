@@ -1,30 +1,40 @@
+version: '3.8'  # Specify the Docker Compose file version
+
 services:
- root-api:
-  build: ./root-nestjs-api
-  ports:
-   -"3000:3000"
-  volumes:
-   - ./root-nestjs-api/src:/usr/src/app/src
-  command: npm run start:dev
-  environment:
-   - PORT=3000
- users-microservices:
-  build: ./users-microservices
-  volumes:
-   - ./users-microservices/src:/usr/src/app/src
-  command: npm run start:dev
- payment-microservices:
-  build: ./payment-microservices
-  volumes:
-   - ./payment-microservices/src:/usr/src/app/src
-  command: npm run start:dev
- nats:
-  image: nats
-  ports:
-   - 4222:4222
- mysql_db:
-  image: mysql
-  ports:
-   - "3307:3307"
+  root-api:
+    build: ./root-nestjs-api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./root-nestjs-api/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3000
 
+  users-microservices:
+    build: ./users-microservices
+    volumes:
+      - ./users-microservices/src:/usr/src/app/src
+    command: npm run start:dev
 
+  payment-microservices:
+    build: ./payment-microservices
+    volumes:
+      - ./payment-microservices/src:/usr/src/app/src
+    command: npm run start:dev
+
+  nats:
+    image: nats
+    ports:
+      - "4222:4222"
+
+  mysql_db:
+    image: mysql
+    ports:
+      - "3307:3307"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=nestjs_db
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=root
+      - MYSQL_TCP_PORT=3307
